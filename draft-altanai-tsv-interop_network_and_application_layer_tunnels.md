@@ -64,8 +64,12 @@ TODO Abstract
 
 # Introduction
 
-- A L3 tunneling protocol, such as IPSec, can provde secure path to almost all protocols in the TCP/IP suite
-IPSec is a frame work of open standards to provide secure and private IP networks.
+Tunneling encapsulates the packet, including header and data of one protocol, inside the payload field of another protocol appending its own headers.
+VPN not only provides secure communication over an untrusted network like site-to-site networking through the Internet, but also provides authentication, encryption and compression. 
+
+- SSL/TLS tunnelling 
+ 
+- A L3 tunneling protocol, such as IPSec [RFCs 1825–1829, RFCs 2401–2412], can provde secure path to almost all protocols in the TCP/IP suite. IPSec is a frame work of open standards to provide secure and private IP networks. Authentication Header (AH) and Encapsulating Security Payload (ESP) are part of the IPSec protocol suite, where Security Parameter Index(SPI) uniquely identifies a connetion and each packet in the flow bears a Sequence Number (SN) and a integtrity checksum called ICV (integrity check value). ESP packets inside UDP packets traversing through NATs[RFC3948]
 
 - Segment Routing enables a network to enforce a flow by transporting unicast packets through a specific forwarding path. While ideally this would be decided by IGP shortest path or BGP best path. A segment can represent any instruction, topological or service-based
 
@@ -78,26 +82,34 @@ Every tunnel encapsulation entails appending extra header and/or footer to the d
 It is a challenge to 
 
 ## 2. Multiple encryption overhead
-
+Encryption provides protection against corruption, theft
 
 ## 3. Multi layer Congestion control 
+Buffers are employed as means to store excess traffic during congestion periods.
+Queing can be implemented at ingress or egress points.  
+Queing can be as simple as FIFO, switch specific such as RR, WRR or router specific such as PQ,WFQ,CBWFQ,LLQ. more enhanced queing schmes involve AQM such as FQCODEL, PIE, CAKE. 
 
 ## 4. Rate Control conflicts 
 Bandwidth limits can be configured at multiple point in a node or network stack, from application level to WAN port level. The simple rate control techniques are based on threshold. Often traffic shaping polcies can be condifgured for limiting by steady state or burst rate. 
 
 ## 5. Obfuscated prioritization 
-Different network service providers implement various kindes of prioritization logic on varioud levels of complexities. The classification can span from low, medium or high bucket based approach to realtime classification using machine learning models. Some prioritise traffic using static routing while others may tag or add marker such as DSCP. However while tunneling the traffic through another tunnel, these efforts mostly goto vain. 
+Since not all traffic is equally important to an organization, it is a common practice to prioritize some kinds of traffic.  Different network service providers implement various kinds of prioritization logic on various levels of complexities. The classification can span from a low, medium or high bucket based approach to real time classification using machine learning models. Some prioritize traffic using static routing while others may tag or add markers such as DSCP. The markings were meant for L3 capable devices such as routers or multi-layer switches and designed to be persistent through the network for example Expedited Forwarding(EF) was meant for Voice traffic, where loss and subsequent retransmission is detrimental to user experience.
+However while tunneling the traffic through another tunnel, these efforts mostly goto vain by either getting overwritten or getting hidden under encapsulating protocol's header.
 
 
 # Proposed Solution 
 
-
+## Firewall capabilities for end system 
+This solution provides host-based stateful packet filtering can provide some firewall capabilities at the end systems such as blocking IP traffic based on source and/or destination, specific protocols or ports. 
 
 
 ## Trust model between the layers 
 
-The design should not
-cause blkeeching of information where one actors remove the addiotnal secutity infornmation 
+The design should
+- apply policies accross the tunneled data for example if network administrator uses an IPSec policy that requires ESP encryption and communication only with trusted computers in the Active Directory domain, then the inner tunnels traffic should not be able to reach non listed servers.
+
+The design should not 
+- cause bleeching of information where one actors remove the addiotnal secutity infornmation 
 
 # Conventions and Definitions
 
