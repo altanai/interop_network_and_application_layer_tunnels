@@ -67,20 +67,22 @@ Encryption provides protection against corruption, theft
 Buffers are employed as means to store excess traffic during congestion periods which leads to queing. Queing can be implemented at ingress or egress points. It be as simple as FIFO, switch specific such as RR, WRR or router specific such as PQ,WFQ,CBWFQ, LLQ. More enhanced queing schmes involve AQM such as FQCODEL, PIE, CAKE. To overcome the congestion and optimize bandwidth usage there exist Congestion control algorithms. For example loss based transport layer congestion control such as TCP NewReno [RFC6582] or CUBIC [RFC8312] or delay based congestion control such as these at application layer, SCReAM, NADA or GCC (Google Congestion Control) for Real-Time Communication[https://datatracker.ietf.org/doc/html/draft-ietf-rmcat-gcc-02] which is already applied to many WebRTC implementations.  
 Issues arise when more than one congestion control algorithms are trying to adapt to the bandwidth and varaible congestion window.
 
-## 4. Rate Control conflicts 
-Bandwidth limits can be configured at multiple point in a node or network stack, from application level to WAN port level. The simple rate control techniques are based on threshold. Often traffic shaping policies can be condifgured for limiting by steady state or burst rate. A realtime streams in a nested tunnel scenario can be starved by rate control to adapt to lowering bandwidth as cross traffic on the parent tunnel tries to occupy the majority share. 
+## 4. Rate Control conflicts and flawed pacing 
+Control limits can be configured at multiple network nodes or levels of network stack, from application level to WAN port level. The simplest rate control techniques are based on thresholding. On an advanced level, traffic shaping policies can also be condifgured for limiting by steady state or burst rate. Rate limiting applied indeffirently creates performance degradtion especially for real time applications. For example a realtime stream in a nested tunnel scenario can be starved by middlebox's rate-control to adapt to bandwidth as cross traffic on the parent tunnel tries to occupy the majority share. 
+Pacing is a means to controlling the flow of packets from the sender to avoid such short term congestion. A perfectly paced sender spreads packets evenly over time, not exceeding the capacity of the network. However practical implementations of pacing often suffer from incorrect bandwidth estimation, packetization, scheduling delays or other computational overheads.
+At the network level any of the packets from the application whether carrying information or non-critical probing appear the same. A network tunneling protocol treats all the payload uniformly while applying start, recovery and congestion avoidance rules. However the loss or timeout of any probe packet could trigger aggressive congestion control from its host application such as increased redundant data on media encoder to overcome retransmission and so on. From the network prespective this fills up the congestion window and can then trigger rate limiting after some cycles. On the other hand absense of any intelligent rate control can result in underutilization of the congestion window. 
 
 ## 5. Obfuscated prioritization 
-Since not all traffic is equally important to an organization, it is a common practice to prioritize some kinds of traffic.  Different network service providers implement various kinds of prioritization logic on various levels of complexities. The classification can span from a low, medium or high bucket based approach to real time classification using machine learning models. Some prioritize traffic using static routing while others may tag or add markers such as DSCP. The markings were meant for L3 capable devices such as routers or multi-layer switches and designed to be persistent through the network for example Expedited Forwarding(EF) was meant for Voice traffic, where loss and subsequent retransmission is detrimental to user experience.
+Since not all traffic is equally important to an organization, it is a common practice to prioritize some kinds of traffic. Different network service providers implement various kinds of prioritization logic on various levels of complexities. The classification can span from a low, medium or high bucket based approach to real time classification using machine learning models. Some prioritize traffic using static routing while others may tag or add markers such as DSCP. The markings were meant for L3 capable devices such as routers or multi-layer switches and designed to be persistent through the network for example Expedited Forwarding(EF) was meant for Voice traffic, where loss and subsequent retransmission is detrimental to user experience.
 However while tunneling the traffic through another tunnel, these efforts mostly goto vain by either getting overwritten or getting hidden under encapsulating protocol's header.
 
 ## 6. Multi layer stats collection 
-Multiple application may simultenously be sending heartbeat, ping , hello or keepalive signals or applying a standard feedback mechanism such as RTCP for stats collection. This leads to costly overhead. 
+Multiple applications or tunneling protocols may simultaneously be sending probe signals such as heartbeat, ping, hello or applying a custom feedback mechanism such as RTCP for stats collection. This leads to costly overhead. 
 
 ## 7. Retransmission of lost packets 
 QUIC manages network stats for Loss Detection and Congestion Control [RFC9002]. It detects loss by sending separate monotonically Increasing Packet Numbers as well as separate packet number spaces for each encryption level so that acknowledgment of packets is recognizable across levels of encryption. This prevents spurious retransmissions while still enabling fast retransmit.
 On the other hand a L3 tunnel encapsulation such as ESP only adds a monotonically increasing sequence number in the header. All nested tunnels on this tunnel are subjected to HoL blocking as the packets wait in the transmission queue to be received and processed. While there exist no means to avoid spurious retransmissions from the sender, the receiver can use an anti-replay window to detect duplicates and discard. 
-A cumulative retransmission from both layers of a nested tunnel not only contributes to complexity in jitter and packet reordering, but also to latency and overhead by impacting other traffic.
+A cumulative retransmission from both layers of a nested tunnel not only contributes to complexity in jitter and packet reordering, but also to latency and overhead by impacting other traffic's performance.
 
 # Proposed Solution 
 Although nested tunnel are a realworld scenario which simplifies the configuration from an enterprise policy prespective and may appear more secure, we see from the probelem statement above that there are major tradeoffs when it comes to retransmission and managing overheads. The following is proposed detection mechanism for multiple tunneling layers and the communication model between the layers to overcome some of the shortcomˆngs from nested tuneling.
@@ -113,8 +115,18 @@ The design should not
 
 
 # Security Considerations
-There are numerous performance issues related to over encryption in the probelm space. While there is large scope for improvements in the draft, the main crux is to build a trust model between the tunneling layers that avoids the need for multiple layers of cryptographic protocols.
+There are numerous performance issues related to over encryption and conflicting algorithms in the probelm space. While there is large scope for improvements in the draft, the main crux is to build a trust model between the tunneling layers that avoids the need for multiple layers of cryptographic protocols.
 
+## 1. Loss of sync messages
+If a lower layer, such as L3 network tunneling, fails to share the network stats with higher layers, such as MASQUE in application layer, then it would impact the sender's ability to recognize congestion as effectively and provide markings.
+
+## 2. Misuse of inter-layer messages
+The application layer may notoriously try to mis-use the information from lower layers to enhance its rate adaptation or pacing unfairly.
+The inner layer can also add ECN marking to all the traffic so as to win the prioritization. 
+Alternatively the outer tunneling protocols may mis-report information to the inner tunnels. For example the network tunnel may suggest RTT to be more the observed value so that the inner tunnel does not completely utilize the bandwidth.  
+
+## 3. Traffic analysis concerns
+There are concerns of deciphering user information from analysinf traffic
 
 # IANA Considerations
 
