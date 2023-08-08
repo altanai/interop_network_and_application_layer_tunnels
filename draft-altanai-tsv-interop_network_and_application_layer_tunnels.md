@@ -54,7 +54,6 @@ VPN not only provides secure communication over an untrusted network like site-t
 - Segment Routing enables a network to enforce a flow by transporting unicast packets through a specific forwarding path. While ideally this would be decided by IGP shortest path or BGP best path. A segment can represent any instruction, topological or service-based
 
 # Problem statement for nested tunnels 
-
 Among the wide scope of problems related to nested tunnels, here are the issues specific to multi layer tunnels alone
 
 ## 1. MTU Considerations 
@@ -78,7 +77,13 @@ However while tunneling the traffic through another tunnel, these efforts mostly
 ## 6. Multi layer stats collection 
 Multiple application may simultenously be sending heartbeat, ping , hello or keepalive signals or applying a standard feedback mechanism such as RTCP for stats collection. This leads to costly overhead. 
 
+## 7. Retransmission of lost packets 
+QUIC manages network stats for Loss Detection and Congestion Control [RFC9002]. It detects loss by sending separate monotonically Increasing Packet Numbers as well as separate packet number spaces for each encryption level so that acknowledgment of packets is recognizable across levels of encryption. This prevents spurious retransmissions while still enabling fast retransmit.
+On the other hand a L3 tunnel encapsulation such as ESP only adds a monotonically increasing sequence number in the header. All nested tunnels on this tunnel are subjected to HoL blocking as the packets wait in the transmission queue to be received and processed. While there exist no means to avoid spurious retransmissions from the sender, the receiver can use an anti-replay window to detect duplicates and discard. 
+A cumulative retransmission from both layers of a nested tunnel not only contributes to complexity in jitter and packet reordering, but also to latency and overhead by impacting other traffic.
+
 # Proposed Solution 
+Although nested tunnel are a realworld scenario which simplifies the configuration from an enterprise policy prespective and may appear more secure, we see from the probelem statement above that there are major tradeoffs when it comes to retransmission and managing overheads. The following is proposed detection mechanism for multiple tunneling layers and the communication model between the layers to overcome some of the shortcomˆngs from nested tuneling.
 
 ## 1. Sync Congestion control accross layers 
 QUIC does not mandate a particular congestion control but suggests TCP Reno. Other techniques such as Cubic or bbr could also be applied. As mentioned in the problem statement the unsynchronised congestion control across layers is a potential issue for the latency or quality sensitive applications. To overcome this, a synchronization mechanism is proposed which communicates the congestion control across layers. It can be applied to completely mute lower layer congestion control operation while prioritizing  higher layer’s congestion control when there is one available. Alternatively this can help in path selection too.  For example separate QUIC connection for application with their own Congestion control so as to not conflict with lower layer congestion control applied for other groups of traffic. 
