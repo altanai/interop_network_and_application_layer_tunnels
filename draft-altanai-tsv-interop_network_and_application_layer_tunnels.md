@@ -50,6 +50,7 @@ VPN not only provides secure communication over an untrusted network like site-t
 A path for information exchange on a network passes via many interconnected networks. This makes it vulnerable to rewriting or interception at various points.  Tunneling overcomes this as this process encapsulates the packet, including header and data of one protocol, inside the payload field of another protocol appending its own headers. This ensures the inner protocol  is protected in transit. Tunneling can build a secure interconnection called Virtual Private Network(VPN) that provides a private subnet to pass traffic between the tunneled endpoints. This setup caters to enterprises and smaller home networks alike. The egress points provided a gateway for outgoing traffic destined for the internet but only after anonymizing the source. The protocols supporting such network level tunneling include GRE, L2P, IPSec, OpenVPN and even proprietary protocols such as AutoVPN. With the advent of QUIC, multiple proxied stream- and datagram-based flows inside an HTTP connection, such as MASQUE, are quickly gaining quick popularity and widespread adoption. However there may be real world use-cases where network tunnels nest application tunnels, which leads to large latency and quality degradation. 
 
 Some instances of lower layer protocol 
+
 * Generic Routing Encapsulation (GRE) [RFC2784]
 * IP-in-IP[RFC1853] 
 * IPSec
@@ -58,6 +59,7 @@ Some instances of lower layer protocol
 * AutoVPN
 
 Some instances of upper layer protocols 
+
 * SSH and  Secure Real-time Transport Protocol (SRTP) [RFC 5764] operate at the application layer. 
 * Stream Control Transmission Protocol (SCTP)
 * DTLS.
