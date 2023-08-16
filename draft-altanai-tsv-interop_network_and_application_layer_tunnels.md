@@ -37,15 +37,30 @@ informative:
 
 --- abstract
 
-TODO Abstract
+VPN not only provides secure communication over an untrusted network like site-to-site networking through the Internet, but also provides authentication, encryption and compression. VPNs are formed by tunnels which provide the secure medium for exchange.
+Tunneling encapsulating and encrypting the original protocol with its own protocol.
 
 
 --- middle
 
 # Introduction
 
-Tunneling encapsulates the packet, including header and data of one protocol, inside the payload field of another protocol appending its own headers.
+
 VPN not only provides secure communication over an untrusted network like site-to-site networking through the Internet, but also provides authentication, encryption and compression. 
+A path for information exchange on a network passes via many interconnected networks. This makes it vulnerable to rewriting or interception at various points.  Tunneling overcomes this as this process encapsulates the packet, including header and data of one protocol, inside the payload field of another protocol appending its own headers. This ensures the inner protocol  is protected in transit. Tunneling can build a secure interconnection called Virtual Private Network(VPN) that provides a private subnet to pass traffic between the tunneled endpoints. This setup caters to enterprises and smaller home networks alike. The egress points provided a gateway for outgoing traffic destined for the internet but only after anonymizing the source. The protocols supporting such network level tunneling include GRE, L2P, IPSec, OpenVPN and even proprietary protocols such as AutoVPN. With the advent of QUIC, multiple proxied stream- and datagram-based flows inside an HTTP connection, such as MASQUE, are quickly gaining quick popularity and widespread adoption. However there may be real world use-cases where network tunnels nest application tunnels, which leads to large latency and quality degradation. 
+
+Some instances of lower layer protocol 
+* Generic Routing Encapsulation (GRE) [RFC2784]
+* IP-in-IP[RFC1853] 
+* IPSec
+* WireGuard
+* OpenVPN 
+* AutoVPN
+
+Some instances of upper layer protocols 
+* SSH and  Secure Real-time Transport Protocol (SRTP) [RFC 5764] operate at the application layer. 
+* Stream Control Transmission Protocol (SCTP)
+* DTLS.
 
 - SSL/TLS tunnelling 
  
@@ -54,6 +69,10 @@ VPN not only provides secure communication over an untrusted network like site-t
 - Segment Routing enables a network to enforce a flow by transporting unicast packets through a specific forwarding path. While ideally this would be decided by IGP shortest path or BGP best path. A segment can represent any instruction, topological or service-based
 
 # Problem statement for nested tunnels 
+
+![image](https://github.com/altanai/interop_network_and_application_layer_tunnels/assets/1989657/757a59d4-a63d-4284-aede-8fb2d66f99bc)
+
+
 Among the wide scope of problems related to nested tunnels, here are the issues specific to multi layer tunnels alone
 
 ## 1. MTU Considerations 
@@ -61,7 +80,7 @@ Every tunnel encapsulation entails appending extra header and/or footer to the d
 It is a challenge to 
 
 ## 2. Multiple encryption overhead
-Encryption provides protection against corruption, theft
+Encryption provides protection against theft. While network tunnels may connect a user to a private network, it cannot protect against intentionally harmful behavior of a compromised endpoint, thereby exposing all inner sites to that endpoint. An application tunnel such as MASQUE maintains separate authorization for separate applications and thus with its own end to end encryption, reduces this attack surface as a compromised application endpoint cannot expose the information from other application tunnels. However, overlaying multiple layers of end to end encryption not only adds more compute but also time to read. Additionally rekey and other challenge-response mechanisms add more weight to the flow. 
 
 ![image](https://github.com/altanai/interop_network_and_application_layer_tunnels/assets/1989657/4e6d7895-9728-4390-8c31-d808d1eeb34c)
 
