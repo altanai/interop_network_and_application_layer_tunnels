@@ -3,14 +3,13 @@ title: "Interop between network and application layer tunnels"
 abbrev: "TODO - Abbreviation"
 category: info
 
-docname: draft-todo-yourname-protocol-latest
+docname: draft-altanai-tsv-interop_network_and_application_layer_tunnels-latest
 submissiontype: IETF  # also: "independent", "editorial", "IAB", or "IRTF"
-number:
-date:
+date: {DATE}
 consensus: true
 v: 3
-area: AREA
-workgroup: WG Working Group
+area: transport
+workgroup: TSV Working Group
 keyword:
  - MASQUE
  - VPN
@@ -19,9 +18,9 @@ keyword:
 venue:
   group: "Transport Area"
   type: "Area"
-  mail: WG@example.com
+  mail: tsv@ietf.org
   arch: https://example.com/WG
-  github: USER/REPO
+  github: altanai/interop_network_and_application_layer_tunnels
   latest: https://example.com/LATEST
 
 author:
