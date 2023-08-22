@@ -8,8 +8,8 @@ submissiontype: IETF  # also: "independent", "editorial", "IAB", or "IRTF"
 date: {DATE}
 consensus: true
 v: 3
-area: transport
-workgroup: TSV Working Group
+area: "Internet Engineering Steering Group"
+workgroup: "Transport Area"
 keyword:
  - MASQUE
  - VPN
@@ -18,10 +18,10 @@ keyword:
 venue:
   group: "Transport Area"
   type: "Area"
-  mail: tsv@ietf.org
-  arch: https://example.com/WG
-  github: altanai/interop_network_and_application_layer_tunnels
-  latest: https://example.com/LATEST
+  mail: ""
+  arch: ""
+  github: "altanai/interop_network_and_application_layer_tunnels"
+  latest: "https://altanai.github.io/interop_network_and_application_layer_tunnels/draft-altanai-tsv-interop_network_and_application_layer_tunnels.html"
 
 author:
  -
