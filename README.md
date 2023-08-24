@@ -2,10 +2,10 @@
 
 This is the working area for the individual Internet-Draft, "Interop between network and application layer tunnels".
 
-* [Editor's Copy](https://altanai.github.io/interop_network_and_application_layer_tunnels/#go.draft-altanai-tsv-interop_network_and_application_layer_tunnels.html)
-* [Datatracker Page](https://datatracker.ietf.org/doc/draft-altanai-tsv-interop_network_and_application_layer_tunnels)
-* [Individual Draft](https://datatracker.ietf.org/doc/html/draft-altanai-tsv-interop_network_and_application_layer_tunnels)
-* [Compare Editor's Copy to Individual Draft](https://altanai.github.io/interop_network_and_application_layer_tunnels/#go.draft-altanai-tsv-interop_network_and_application_layer_tunnels.diff)
+* [Editor's Copy](https://altanai.github.io/interop_network_and_application_layer_tunnels/#go.draft-ietf-tsvw-cross-layer-tunnel-signaling.html)
+* [Datatracker Page](https://datatracker.ietf.org/doc/draft-ietf-tsvw-cross-layer-tunnel-signaling)
+* [Individual Draft](https://datatracker.ietf.org/doc/html/draft-ietf-tsvw-cross-layer-tunnel-signaling)
+* [Compare Editor's Copy to Individual Draft](https://altanai.github.io/interop_network_and_application_layer_tunnels/#go.draft-ietf-tsvw-cross-layer-tunnel-signaling.diff)
 
 
 ## Contributing

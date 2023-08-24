@@ -17,7 +17,7 @@
 /versioned/
 Gemfile.lock
 archive.json
-draft-altanai-tsv-interop_network_and_application_layer_tunnels.xml
+draft-ietf-tsvw-cross-layer-tunnel-signaling.xml
 package-lock.json
 report.xml
 !requirements.txt
