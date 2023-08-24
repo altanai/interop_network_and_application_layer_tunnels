@@ -66,7 +66,7 @@ Some instances of upper layer tunneling and encapsulation protocols are as follo
 Some instances of the synchronized operation between the such multi layered tunneling can be : 
 
 1. A L3 tunneling protocol, such as IPSec ({{?RFC4301}}), can provide a secure path to almost all protocols in the TCP/IP suite. IPSec is a framework of open standards to provide secure and private IP networks. Authentication Header (AH) and Encapsulating Security Payload (ESP) are part of the IPSec protocol suite, where Security Parameter Index(SPI) uniquely identifies a connection and each packet in the flow bears a Sequence Number (SN) and a integrity checksum called ICV (integrity check value). ESP packets inside UDP packets traverse through NATs {{?RFC3948}}. This can be leveraged by a application layer protocol such as MASQUE to balance the flow between separate IPSec tunnels as paths. 
-
+~~~
 
                                              +------+              +------+
                              MASQUE tunnel   |      |              |      |
@@ -88,6 +88,7 @@ Some instances of the synchronized operation between the such multi layered tunn
                                              | Peer |              |Peer  |
                                              |      |              |      |
                                              +------+              +------+
+~~~
 
 2. A lower layer protocol such as Segment Routing enables a network to enforce a flow by transporting unicast packets through a specific forwarding path. A segment can represent any instruction, topological or service-based. This information can be synced to higher layer’s  tunneling protocol to share the presence of shortest path forwarding and prevent the processing overhead of independent path exploration by the application.
 
