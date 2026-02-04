@@ -2,14 +2,14 @@
 
 
 
-Transport Area                                                  A. Bisht
+Transport and Services Working Group (tsvwg)                    A. Bisht
 Internet-Draft                                              Cisco Meraki
 Intended status: Informational                           4 February 2026
 Expires: 8 August 2026
 
 
-         Interop between network and application layer tunnels
-          draft-ietf-tsvw-cross-layer-tunnel-signaling-latest
+                      Cross-layer tunnel signaling
+          draft-ietf-tsvwg-cross-layer-tunnel-signaling-latest
 
 Abstract
 
@@ -30,9 +30,9 @@ About This Document
 
    The latest revision of this draft can be found at
    https://altanai.github.io/
-   interop_network_and_application_layer_tunnels/draft-ietf-tsvw-cross-
+   interop_network_and_application_layer_tunnels/draft-ietf-tsvwg-cross-
    layer-tunnel-signaling.html.  Status information for this document
-   may be found at https://datatracker.ietf.org/doc/draft-ietf-tsvw-
+   may be found at https://datatracker.ietf.org/doc/draft-ietf-tsvwg-
    cross-layer-tunnel-signaling/.
 
 
