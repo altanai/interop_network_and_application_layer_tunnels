@@ -17,7 +17,7 @@
 /versioned/
 Gemfile.lock
 archive.json
-draft-ietf-tsvw-cross-layer-tunnel-signaling.xml
+draft-ietf-tsvwg-cross-layer-tunnel-signaling.xml
 package-lock.json
 report.xml
 !requirements.txt

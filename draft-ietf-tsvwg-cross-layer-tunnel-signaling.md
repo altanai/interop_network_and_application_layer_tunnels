@@ -1,27 +1,27 @@
 ---
-title: "Interop between network and application layer tunnels"
+title: "Cross-layer tunnel signaling"
 abbrev: "TODO - Abbreviation"
 category: info
 
-docname: draft-ietf-tsvw-cross-layer-tunnel-signaling-latest
+docname: draft-ietf-tsvwg-cross-layer-tunnel-signaling-latest
 submissiontype: IETF  # also: "independent", "editorial", "IAB", or "IRTF"
 date: {DATE}
 consensus: true
 v: 3
-area: "Internet Engineering Steering Group"
-workgroup: "Transport Area"
+area: "Transport Area"
+workgroup: "Transport and Services Working Group (tsvwg)"
 keyword:
  - MASQUE
  - VPN
  - IPSec
  - Network Tunnelling protocols
 venue:
-  group: "Transport Area"
-  type: "Area"
+  group: "tsvwg"
+  type: "Working Group"
   mail: ""
   arch: ""
   github: "altanai/interop_network_and_application_layer_tunnels"
-  latest: "https://altanai.github.io/interop_network_and_application_layer_tunnels/draft-ietf-tsvw-cross-layer-tunnel-signaling.html"
+  latest: "https://altanai.github.io/interop_network_and_application_layer_tunnels/draft-ietf-tsvwg-cross-layer-tunnel-signaling.html"
 
 author:
  -
